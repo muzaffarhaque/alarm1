@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .maincontainer{
+                display: flex;
+                align-items: center;
+                justify-content:center;
+                width: 100%;
+                height: 100vh;
+                flex-direction: column;
+            }
+            .divsetalaram{
+                border: 2px solid red;
+                display: flex;
+                align-items: center;
+                justify-content:center;
+                width: 100%;
+            }
+            #audio{
+opacity: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=6402">Pixabay</a> -->
+        <div class="maincontainer">
+
+            <h2>Alarm clock</h2>
+            <h3 id="showdate"> </h3>
+            <h4 id="showtime"></h4>
+            <div class="divsetalaram">
+            <p id="setdate"></p>
+            <p id="settime"></p>
+            <button onclick="setupdateval()" >cancel</button>
+        </div>
+        <br/>
+            <input type="date" id="date" placeholder="date"><br/>
+          
+            <input type="time" id="time" placeholder="time"><br/>
+           
+            <button onclick="show()">set allaram</button>
+            <audio id="audio" src="../Downloads/alarm-clock-short-6402.mp3" controls ></audio>
+
+        </div>
+
+        <script>
+      setInterval(()=>{
+            let Cd = new Date()
+            let todaytime=`${Cd.getHours()<10? "0"+Cd.getHours():Cd.getHours()}:${Cd.getMinutes()}:${Cd.getSeconds()}`;
+            let today = `${Cd.getFullYear()}-${Cd.getMonth()<10?"0" + (Cd.getMonth()+1):Cd.getMonth()+1}-${Cd.getDate()<10?"0" + (Cd.getDate()+1):Cd.getDate()}`;
+            document.getElementById("showdate").innerHTML=today;
+          
+            document.getElementById("showtime").innerHTML=todaytime;
+     
+        },1000)
+            let audio=document.getElementById("audio");
+            let setdate = document.getElementById("setdate")
+            let settime = document.getElementById("settime")
+      function setupdateval(){
+                 document.getElementById("date").value=null
+                 document.getElementById("time").value =null
+                 setdate.innerText=""
+                 settime.innerText=''
+                 audio.pause()
+      }
+
+
+             
+
+            function show() {
+              
+              
+
+               let stop= setInterval(()=>{
+                let date = document.getElementById("date").value
+                let time = document.getElementById("time").value
+                console.log(date,time)
+                setdate.innerHTML=date
+                settime.innerText=time
+                    let ct=new Date()
+                    let todaytime=`${ct.getHours()<10? "0"+ct.getHours():ct.getHours()}:${ct.getMinutes()<10?"0" + ct.getMinutes():ct.getMinutes()}`;
+                    let today = `${ct.getFullYear()}-${ct.getMonth()<10?"0" + (ct.getMonth()+1):ct.getMonth()+1}-${ct.getDate()<10?"0" + (ct.getDate()):ct.getDate()}`;
+                     console.log(today,todaytime,"first")
+                     console.log(date,time,"sec")
+                     console.log(today==date,"comp")
+                         if((date==today && todaytime==time)|| todaytime==time) {
+                            let i=1;
+                            audio.play()
+                            let stop2=setInterval(()=>{
+                                if(i==3){
+                                 clearInterval(stop2)
+                                }
+                                audio.play()
+                                i++;
+                            },300000)
+                          setTimeout(()=>{ clearInterval(stop)},1000)
+                        
+                            }
+                },1000)
+               
+            }
+     
+        </script>
+    </body>
+</html>
